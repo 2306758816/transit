@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Transit</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Main CSS-->
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+</head>
+
+<body class="app sidebar-mini rtl">
+    <!-- Navbar-->
+    <header class="app-header">
+        <a class="app-header__logo" href="index.html">Transit</a>
+        <!-- Sidebar toggle button-->
+        <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+        <!-- Navbar Right Menu-->
+        <ul class="app-nav">
+            <li class="app-search">
+                <h5 style="color: white;margin-bottom: 0;">实现前端、后台开发人员无缝对接 , 让开发更简单、高效</h5>
+            </li>
+        </ul>
+    </header>
+    <!-- Sidebar menu-->
+    <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+    <aside class="app-sidebar">
+        <ul class="app-menu">
+            <li>
+                <a class="app-menu__item" href="index.html">
+                    <i class="app-menu__icon fa fa-laptop"></i>
+                    <span class="app-menu__label">介绍</span>
+                </a>
+            </li>
+            <li>
+                <a class="app-menu__item" href="config.html">
+                    <i class="app-menu__icon fa fa-file-text"></i>
+                    <span class="app-menu__label">配置管理</span>
+                </a>
+            </li>
+            <li>
+                <a class="app-menu__item active" href="example.html">
+                    <i class="app-menu__icon fa fa-th-list"></i>
+                    <span class="app-menu__label">Example</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+    <main class="app-content">
+        <div class="app-title">
+            <div>
+                <h1>
+                    <i class="fa fa-th-list"></i> Example</h1>
+                <p>Transit 功能体验页面</p>
+            </div>
+        </div>
+        <div class="tile mb-4">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2 class="mb-3 line-head" id="buttons">将 HTTP 请求转发至开发网机器(10.17.66.75:9999)</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bs-component">
+                        <div class="alert alert-dismissible alert-warning">
+                            <!-- <button class="close" type="button" data-dismiss="alert">×</button> -->
+                            <p>如需体验以下功能, 需将您的IP地址配置到转发规则中.</p>
+                            <h4 style="display: inline-block;margin-left: 20px;">IP :
+                                <span id="ip"></span>
+                            </h4>
+                            <button class='btn btn-success' style="margin-top: -7px;margin-left: 30px" type='button' onclick="addTo()">确认配置</button>
+
+                            <p>链路如下 :
+                                <br />&nbsp;&nbsp;&nbsp;&nbsp; 本机 -> 10.12.72.200:9090 -> 10.12.72.200:8000
+                                <-> 10.17.66.75:8001 -> 10.17.66.75:9999
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h5>GET 请求</h5>
+                    <p>
+                        <a class="alert-link" href="http://10.12.72.200:9090/api/hello">http://10.12.72.200:9090/api/hello</a>
+                        <button class='btn btn-success' style="margin-top: -7px;margin-left: 30px" type='button' onclick="hello()">请求</button>
+                    </p>
+                    <h5>POST 请求</h5>
+                    <p>
+                        <a class="alert-link" href="http://10.12.72.200:9090/api/getDate">http://10.12.72.200:9090/api/getDate</a>
+                        <button class='btn btn-success' style="margin-top: -7px;margin-left: 30px" type='button' onclick="getDate()">请求</button>
+                    </p>
+                    <!-- (文件不能大于10M) -->
+                    <h5>文件上传</h5>
+                    <p>
+                        <a class="alert-link" href="http://10.12.72.200:9090/api/uolpad">http://10.12.72.200:9090/api/upload</a>
+                        <form id="infoLogoForm" enctype='multipart/form-data'>
+                            <!-- style="display: none"> -->
+                            <div class="cnt-updateWrapper">
+                                <div>
+                                    <div id="loadImg" class="cnt-img-content">
+                                        <!-- <img id="logo" class="ctn-uploadImg" src="" draggable="false"> -->
+                                        <div id="licenseBox" class="ctn-licence">
+                                            <!-- 点击我上传图片 -->
+                                            <input type="file" id="ctn-input-file" name="uploadfile" accept="image/*" style="height:40px">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div>上传成功后，请点击保存后才能生效</div> -->
+                                <div>
+                                    <button id="infoLogoSaveBt" class="btn btn-success" type="button">上传</button>
+                                </div>
+                            </div>
+                        </form>
+                    </p>
+                    <h5>查看上传的文件列表</h5>
+                    <p>
+                        <iframe src="/staticfile/" id="filesList" frameborder="0"></iframe>
+                        <!-- <img id="viewFile" src="/staticfile/619.png" /> -->
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12"></div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-md-12">
+                <div class="tile">
+                    <div>
+                        <input class="form-control" style="width: 40%;display: inline-block;" placeholder="请输入被转发IP" id="sIP" type="text"> —>
+                        <input class="form-control" style="width: 40%;display: inline-block;" placeholder="请输入目标IP" id="dIP" type="text">
+                        <button class='btn btn-success' style="margin-top: -4px;margin-left: 10px" type='button' onclick="add()">新增</button>
+
+                    </div>
+                    <br>
+                    <div class="tile-body">
+                        <table class="table table-hover table-bordered" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>前端机器IP(被转发IP)</th>
+                                    <th>后台机器IP(目标IP)</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </main>
+    <!-- Essential javascripts for application to work-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+    <!-- The javascript plugin to display page loading on top-->
+    <script src="js/plugins/pace.min.js"></script>
+    <!-- Page specific javascripts-->
+    <!-- Data table plugin-->
+    <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+    <!-- <script type="text/javascript">$('#dataTable').DataTable();</script> -->
+
+    <!-- <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script type="text/javascript">  
+        alert(returnCitySN["cip"] + ',' + returnCitySN["cname"])  
+    </script> -->
+    <script type="text/javascript">
+
+        var uploading = false;
+
+        $("#infoLogoSaveBt").on("click", function () {
+            if (uploading) {
+                alert("文件正在上传中，请稍候");
+                return false;
+            }
+            let size = $("#ctn-input-file")[0].files[0].size;
+            // if (size > 1024 * 100) {
+            //     alert("文件不能大于10M")
+            //     return
+            // }
+            $.ajax({
+                url: "/api/upload",
+                type: 'POST',
+                cache: false,
+                data: new FormData($('#infoLogoForm')[0]),
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                beforeSend: function () {
+                    uploading = true;
+                },
+                complete: function (data) {
+                    if (data.status == 200) {
+                        alert(data.responseText)
+                        $("#filesList")[0].contentWindow.location.reload(true);
+                    }
+                    uploading = false;
+                }
+            });
+        });
+
+        function hello() {
+            let ip = $("#ip").get(0).innerText;
+            $.get("/api/hello", {
+                "ip": ip
+            }, (data, status) => {
+                if (status == "success") {
+                    alert(data)
+                }
+            });
+        }
+
+        function getDate() {
+            $.post("/api/getDate", (data, status) => {
+                if (status == "success") {
+                    alert(data)
+                }
+            });
+        }
+
+        function addTo() {
+            let ip = $("#ip").get(0).innerText;
+            if (!ip) { return }
+            $.post("/addTo", {
+                "ip": ip,
+                "to": "10.17.66.75:8001"
+            }, (data, status) => {
+                if (status == "success") {
+                    alert(data)
+                    $("#sIP").val("");
+                    $("#dIP").val("");
+                }
+            });
+        }
+
+        // get the IP addresses associated with an account
+        function getIPs(callback) {
+            var ip_dups = {};
+
+            //compatibility for firefox and chrome
+            var RTCPeerConnection = window.RTCPeerConnection
+                || window.mozRTCPeerConnection
+                || window.webkitRTCPeerConnection;
+
+            //bypass naive webrtc blocking
+            if (!RTCPeerConnection) {
+                var iframe = document.createElement('iframe');
+                //invalidate content script
+                iframe.sandbox = 'allow-same-origin';
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                var win = iframe.contentWindow;
+                window.RTCPeerConnection = win.RTCPeerConnection;
+                window.mozRTCPeerConnection = win.mozRTCPeerConnection;
+                window.webkitRTCPeerConnection = win.webkitRTCPeerConnection;
+                RTCPeerConnection = window.RTCPeerConnection
+                    || window.mozRTCPeerConnection
+                    || window.webkitRTCPeerConnection;
+            }
+
+            //minimal requirements for data connection
+            var mediaConstraints = {
+                optional: [{ RtpDataChannels: true }]
+            };
+
+            //firefox already has a default stun server in about:config
+            //    media.peerconnection.default_iceservers =
+            //    [{"url": "stun:stun.services.mozilla.com"}]
+            var servers = undefined;
+
+            //add same stun server for chrome
+            if (window.webkitRTCPeerConnection)
+                servers = { iceServers: [{ urls: "stun:stun.services.mozilla.com" }] };
+
+            //construct a new RTCPeerConnection
+            var pc = new RTCPeerConnection(servers, mediaConstraints);
+
+            //listen for candidate events
+            pc.onicecandidate = function (ice) {
+
+                //skip non-candidate events
+                if (ice.candidate) {
+
+                    //match just the IP address
+                    var ip_regex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/
+                    var ip_addr = ip_regex.exec(ice.candidate.candidate)[1];
+
+                    //remove duplicates
+                    if (ip_dups[ip_addr] === undefined)
+                        callback(ip_addr);
+
+                    ip_dups[ip_addr] = true;
+                }
+            };
+
+            //create a bogus data channel
+            pc.createDataChannel("");
+
+            //create an offer sdp
+            pc.createOffer(function (result) {
+
+                //trigger the stun server request
+                pc.setLocalDescription(result, function () { }, function () { });
+
+            }, function () { });
+        }
+
+        getIPs(function (ip) {
+            $("#ip").get(0).innerText = ip;
+        });
+    </script>
+</body>
+
+</html>

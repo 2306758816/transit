@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Transit</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Main CSS-->
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <!-- Font-icon css-->
+  <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+</head>
+
+<body class="app sidebar-mini rtl">
+  <!-- Navbar-->
+  <header class="app-header">
+    <a class="app-header__logo" href="index.html">Transit</a>
+    <!-- Sidebar toggle button-->
+    <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+    <!-- Navbar Right Menu-->
+    <ul class="app-nav">
+      <li class="app-search">
+        <h5 style="color: white;margin-bottom: 0;">实现前端、后台开发人员无缝对接 , 让开发更简单、高效</h5>
+      </li>
+    </ul>
+  </header>
+  <!-- Sidebar menu-->
+  <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+  <aside class="app-sidebar">
+    <ul class="app-menu">
+      <li>
+        <a class="app-menu__item active" href="index.html">
+          <i class="app-menu__icon fa fa-laptop"></i>
+          <span class="app-menu__label">介绍</span>
+        </a>
+      </li>
+      <li>
+        <a class="app-menu__item" href="config.html">
+          <i class="app-menu__icon fa fa-file-text"></i>
+          <span class="app-menu__label">配置管理</span>
+        </a>
+      </li>
+      <li>
+        <a class="app-menu__item" href="example.html">
+          <i class="app-menu__icon fa fa-th-list"></i>
+          <span class="app-menu__label">Example</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+  <main class="app-content">
+    <div class="app-title">
+      <div>
+        <h1>
+          <i class="fa fa-laptop"></i> 介绍</h1>
+        <p>Transit 简介</p>
+      </div>
+    </div>
+
+    <!-- <div class="bs-component">
+      <div class="alert alert-dismissible alert-warning">
+        <button class="close" type="button" data-dismiss="alert">×</button>
+        <h4>请谨慎操作!</h4> -->
+    <!-- <p>请谨慎操作!</p> -->
+    <!-- <p>请勿修改他人记录信息 ! 请勿添加重复信息 !</p>
+        <p>Example :
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;1 To 1 (一个前端机器对应一个后端机器) :
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;127.0.0.1 -> 127.0.0.1:8001
+          <br>
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;N To 1 (多个前端机器对应一个后端机器, 以分号分隔) :
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;127.0.0.1;127.0.0.2 -> 127.0.0.1:8001
+          <br>
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;tips : 不支持 N To N (多个前端机器对应多个后端机器)
+        </p>
+      </div>
+    </div> -->
+
+    <!-- <div class="row">
+
+      <div class="col-md-12">
+        <div class="tile">
+          <div>
+            <input class="form-control" style="width: 40%;display: inline-block;" placeholder="请输入被转发IP" id="sIP" type="text"> —>
+            <input class="form-control" style="width: 40%;display: inline-block;" placeholder="请输入目标IP" id="dIP" type="text">
+            <button class='btn btn-success' style="margin-top: -4px;margin-left: 10px" type='button' onclick="add()">新增</button>
+
+          </div>
+          <br>
+          <div class="tile-body">
+            <table class="table table-hover table-bordered" id="dataTable">
+              <thead>
+                <tr>
+                  <th>前端机器IP(被转发IP)</th>
+                  <th>后台机器IP(目标IP)</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="dataBody">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </main>
+  <!-- Essential javascripts for application to work-->
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
+  <!-- The javascript plugin to display page loading on top-->
+  <script src="js/plugins/pace.min.js"></script>
+  <!-- Page specific javascripts-->
+  <!-- Data table plugin-->
+  <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+  <!-- <script type="text/javascript">$('#dataTable').DataTable();</script> -->
+  <style>
+    input {
+      width: 100%;
+      padding: 10px;
+    }
+
+    .hiddle {
+      display: none;
+    }
+
+    .buttonMag {
+      margin-left: 10px;
+    }
+  </style>
+  <script type="text/javascript">
+    $(document).ready(() => {
+
+      $('#dataTable').DataTable({
+        "ordering": false,
+        "info": false,
+        "paging": false,
+        "searching": false
+      });
+      init();
+    });
+
+    function add() {
+      let sip = $("#sIP").val();
+      let dip = $("#dIP").val();
+      if (!sip || !dip) { alert("IP地址不能为空!"); return }
+
+      let data = sip + "::" + dip;
+      $.post("/add", {
+        "data": data
+      }, (data, status) => {
+        if (status == "success") {
+          alert(data)
+          init();
+          $("#sIP").val("");
+          $("#dIP").val("");
+        }
+      });
+
+    }
+
+    function edit(i) {
+      let kid = "dataKey" + i;
+      let vid = "dataVal" + i;
+      let eid = "dataEdit" + i;
+      let sid = "dataSave" + i;
+      $("#" + kid).removeAttr("disabled");
+      $("#" + kid).focus();
+      $("#" + vid).removeAttr("disabled");
+      $("#" + eid).addClass("hiddle");
+      $("#" + sid).removeClass("hiddle buttonMag");
+    }
+
+    function save(i) {
+      let kid = "dataKey" + i;
+      let vid = "dataVal" + i;
+      let eid = "dataEdit" + i;
+      let sid = "dataSave" + i;
+
+      let dataKey = $("#" + kid).val();
+      let oldVal = $("#" + kid).attr("oldVal");
+      let dataVal = $("#" + vid).val();
+      let data = dataKey + "::" + dataVal;
+      $.post("/update", {
+        "oldKey": oldVal,
+        "data": data
+      }, (data, status) => {
+        if (status == "success") {
+          alert(data)
+          init();
+        }
+      });
+      // $("#" + kid).attr("disabled", true);
+      // $("#" + vid).attr("disabled", true);
+      // $("#" + eid).removeClass("hiddle");
+      // $("#" + sid).addClass("hiddle buttonMag");
+    }
+
+    function init() {
+      $("#dataBody").children().remove();
+      $.get("/getConfig", (data, state) => {
+        if (state == "success") {
+          data = JSON.parse(data)
+          if (!data) { return }
+          let html = "";
+          let i = 0;
+          for (let key in data) {
+            let val = data[key];
+            let kid = "dataKey" + i;
+            let vid = "dataVal" + i;
+            let eid = "dataEdit" + i;
+            let sid = "dataSave" + i;
+            html += "<tr><td>";
+            html += "<input type='text' id='" + kid + "' disabled value='" + key + "' oldVal='" + key + "' />";
+            html += "</td><td><input id='" + vid + "' disabled type='text' value='" + val + "' />";
+            html += "</td><td>";
+            html += "<button class='btn btn-primary' id='" + eid + "' type='button' onclick='edit(\"" + i + "\")'>编辑</button>";
+            html += "<button class='btn btn-success buttonMag hiddle' id='" + sid + "' type='button' onclick='save(\"" + i + "\")'>保存</button>";
+            html += "</td></tr>";
+            // console.log(key, arr[i][key]) 
+            i++;
+          }
+          $("#dataBody").append(html);
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>
