@@ -2,7 +2,7 @@
 
 ![transit](https://raw.githubusercontent.com/wenjiax/transit/master/transit.png)
 
-### 文件介绍 qqq
+### 文件介绍
 
 ```
 transit/
