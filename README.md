@@ -1,6 +1,6 @@
 # transit
 
-![transit](https://raw.githubusercontent.com/wenjiax/transit/master/transit.png)
+![transit](https://raw.githubusercontent.com/wenjiax/transit/master/transit.jpg)
 
 ### 文件介绍
 
