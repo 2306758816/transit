@@ -22,8 +22,8 @@ transit/
 │   │   ├── fonts
 │   │   ├── index.html
 │   │   └── js
-│   └── main.go             转发服务器及配置管理
-└── transit.go              核心文件,处理转发
+│   └── main.go             转发服务器及配置管理
+└── transit.go              核心文件,处理转发
 ```
 
 ### 启动顺序
