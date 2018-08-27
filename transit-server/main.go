@@ -27,7 +27,7 @@ func init() {
 
 	rule = make(map[string]string)
 	_, err := os.Stat("./config.json")
-	if os.IsExist(err) {
+	if err == nil || os.IsExist(err) {
 		b, err := ioutil.ReadFile("./config.json")
 		if err != nil {
 			fmt.Println(err)
@@ -144,7 +144,7 @@ func saveConfig() {
 		}
 		f.Close()
 		_, err = os.Stat("./config.json")
-		if os.IsExist(err) {
+		if err == nil || os.IsExist(err) {
 			os.Remove("./config.json")
 		}
 		os.Rename("./tmp.txt", "./config.json")
